@@ -19,6 +19,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.mockito.Mockito.when;
@@ -87,6 +90,17 @@ public class EmployeeApiTest {
     public void findEmployeeByIdTest() throws Exception {
         when(employeeService.findById((long) 1)).thenReturn(employee);
         this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee/get-employee/1")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    public void findAllEmployeesTest() throws Exception {
+        List<Employee> employeeList = new ArrayList<>();
+        employeeList.add(employee);
+        when(employeeService.findAll()).thenReturn(employeeList);
+        this.mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/employee/findAll")
                 .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());

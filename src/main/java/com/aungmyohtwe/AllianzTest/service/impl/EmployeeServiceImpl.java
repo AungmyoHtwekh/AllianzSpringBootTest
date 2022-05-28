@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -32,5 +33,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Employee findById(Long id) {
         Optional<Employee> employee = employeeRepository.findById(id);
         return employee.get();
+    }
+
+    @Override
+    public List<Employee> findAll() {
+        List<Employee> employeeList = employeeRepository.findAll();
+        return employeeList;
     }
 }

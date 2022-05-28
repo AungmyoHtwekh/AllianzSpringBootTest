@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import com.aungmyohtwe.AllianzTest.payload.ResponseStatus;
 
+import java.util.List;
 
 
 @RestController
@@ -99,6 +100,26 @@ public class EmployeeApi {
             Employee employee = employeeService.findById(id);
             if (employee != null){
                 return new ResponseEntity<>(employee, HttpStatus.OK);
+            }else {
+                ResponseStatus responseStatus = setResponse(Constant.FAIL,Constant.NOT_FOUND,Constant.NOT_FOUND_CODE);
+                return new ResponseEntity<>(responseStatus, HttpStatus.NOT_FOUND);
+            }
+        }catch (Exception e){
+            log.error("Exception happen in : " + e.getMessage());
+            ResponseStatus responseStatus = setResponse(Constant.FAIL,Constant.SYSTEM_ERROR,Constant.ERROR_CODE);
+            return new ResponseEntity<>(responseStatus, HttpStatus.BAD_REQUEST);
+        }
+
+    }
+
+    @RequestMapping(value = "/findAll",method = RequestMethod.GET)
+    @ApiOperation(value = "Retrieve employees ", response = Employee.class)
+    private ResponseEntity<?> findAllEmployees(HttpServletRequest request, HttpServletResponse response){
+
+        try {
+            List<Employee> employeeList = employeeService.findAll();
+            if (employeeList != null){
+                return new ResponseEntity<>(employeeList, HttpStatus.OK);
             }else {
                 ResponseStatus responseStatus = setResponse(Constant.FAIL,Constant.NOT_FOUND,Constant.NOT_FOUND_CODE);
                 return new ResponseEntity<>(responseStatus, HttpStatus.NOT_FOUND);
