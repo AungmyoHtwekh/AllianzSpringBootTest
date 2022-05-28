@@ -20,7 +20,7 @@ import com.aungmyohtwe.AllianzTest.payload.ResponseStatus;
 
 
 @RestController
-@RequestMapping(path = "/api/v1")
+@RequestMapping(path = "/api/v1/employee")
 @Api(value = "Employee Information", description = "Employee Information")
 public class EmployeeApi {
 
@@ -33,12 +33,7 @@ public class EmployeeApi {
 
         try {
             employeeService.saveEmployee(initObject(employee));
-            ResponseStatus responseStatus;
-            if (employee.getId() != null){
-                responseStatus = setResponse(Constant.SUCCESS,Constant.UPDATED,Constant.SUCCESS_CODE);
-            }else {
-                responseStatus = setResponse(Constant.SUCCESS,Constant.DESCRIPTION_SUCCESS,Constant.SUCCESS_CODE);
-            }
+            ResponseStatus responseStatus = setResponse(Constant.SUCCESS,Constant.DESCRIPTION_SUCCESS,Constant.SUCCESS_CODE);
             return new ResponseEntity<>(responseStatus, HttpStatus.CREATED);
         }catch (Exception e){
             log.error("Exception happen in : " + e.getMessage());
